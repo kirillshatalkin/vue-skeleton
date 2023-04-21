@@ -10,6 +10,7 @@ describe('SmthList', () => {
             props: {
                 items: [
                     {
+                        id: 1,
                         prop: 'test prop',
                     },
                 ],
