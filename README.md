@@ -18,6 +18,12 @@ npm run start
 npm run build
 ```
 
+### Generate types
+
+```sh
+npm run api
+```
+
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh

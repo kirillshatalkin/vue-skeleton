@@ -17,15 +17,21 @@ jobs:
       with:
         node-version: '18.x'
         cache: 'npm'
-    
+
     - name: Install
       run: npm ci
-    
+
     - name: Lint
       run: npm run lint
-    
+
     - name: Unit test
       run: npm run test:unit
-    
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Playwright tests
+      run: npm run test:e2e
+
     - name: Build
       run: npm run build
