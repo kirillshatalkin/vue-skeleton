@@ -83,6 +83,17 @@ const addWalletItem = async (item: IAddWalletItemDto): Promise<void> => {
     window.localStorage.setItem(APP_WALLET_LIST_KEY, JSON.stringify(list));
 };
 
+const editWalletItem = async (id: number, editableItem: IAddWalletItemDto): Promise<void> => {
+    const list = await getWalletList();
+    const newList = list.map(item => {
+        if (item.id === id) {
+            return editableItem;
+        }
+        return item;
+    });
+    window.localStorage.setItem(APP_WALLET_LIST_KEY, JSON.stringify(newList));
+};
+
 const removeWalletItem = async (id: number) => {
     const list = await getWalletList();
     const newList = list.filter(item => item.id !== id);
@@ -115,6 +126,7 @@ export const localStorageApi = {
     wallet: {
         getWalletList,
         addWalletItem,
+        editWalletItem,
         removeWalletItem,
         getCategories,
         addCategory,

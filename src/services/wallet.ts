@@ -13,7 +13,11 @@ export const getWalletList = handleError(async (params: TGetListParams) => {
 
 export const addWalletItem = handleError(async (item: IWalletAddItemForm) => {
     const dto = mapWalletFormToWalletItemDto(item);
-    await localStorageApi.wallet.addWalletItem(dto);
+    if (item.id) {
+        await localStorageApi.wallet.editWalletItem(item.id, dto);
+    } else {
+        await localStorageApi.wallet.addWalletItem(dto);
+    }
     return true;
 }, false);
 

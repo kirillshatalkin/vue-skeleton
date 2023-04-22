@@ -12,6 +12,7 @@ import type { IWalletAddItemForm, IWalletItemWithCategory } from '@/models/walle
 import { shortcuts } from '@/utils/date';
 
 const showCharts = ref(false);
+const itemToEdit = ref<IWalletItemWithCategory | undefined>();
 
 const categoriesStore = useCategoriesStore();
 
@@ -48,6 +49,12 @@ const closeAddItemForm = () => {
 };
 
 const openAddItemForm = () => {
+    itemToEdit.value = undefined;
+    addItemFormVisible.value = true;
+};
+
+const openEditItemForm = (item: IWalletItemWithCategory) => {
+    itemToEdit.value = item;
     addItemFormVisible.value = true;
 };
 
@@ -106,7 +113,7 @@ const handleAddItemFormClose = (done: () => void) => {
                     <TotalItem :price="walletStore.totalPrice" />
 
                     <WalletChart v-if="showCharts" :items="items" :categories="categoriesStore.itemsMap" />
-                    <WalletList :items="items" @remove="walletStore.removeItem" v-else />
+                    <WalletList :items="items" @remove="walletStore.removeItem" @edit="openEditItemForm" v-else />
                 </template>
 
                 <el-empty v-else description="No items" />
@@ -121,7 +128,12 @@ const handleAddItemFormClose = (done: () => void) => {
         width="30%"
         :before-close="handleAddItemFormClose"
     >
-        <AddItemForm @submit="submitAddItemForm" v-loading="showLoader" :categories="categoriesStore.items" />
+        <AddItemForm
+            @submit="submitAddItemForm"
+            v-loading="showLoader"
+            :categories="categoriesStore.items"
+            :item="itemToEdit"
+        />
     </el-dialog>
 </template>
 

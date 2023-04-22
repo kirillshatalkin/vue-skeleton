@@ -8,6 +8,7 @@ defineProps<{
 
 defineEmits<{
     (e: 'remove', id: number): void;
+    (e: 'edit', item: IWalletItemWithCategory): void;
 }>();
 </script>
 
@@ -20,5 +21,6 @@ defineEmits<{
         :date="item.date"
         :key="item.id"
         @remove="$emit('remove', item.id)"
+        @edit="$emit('edit', item)"
     />
 </template>

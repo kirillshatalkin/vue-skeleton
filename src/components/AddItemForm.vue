@@ -1,23 +1,28 @@
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import type { FormRules, FormInstance } from 'element-plus';
 import type { IWalletAddItemForm } from '@/models/wallet-item';
 import type { ICategory } from '@/models/wallet-category';
+import type { IWalletItemWithCategory } from '@/models/wallet-item';
 
-defineProps<{
+const props = defineProps<{
     categories: ICategory[];
+    item?: IWalletItemWithCategory;
 }>();
 
 const emit = defineEmits<{
     (e: 'submit', item: IWalletAddItemForm): void;
 }>();
 
+const submitText = computed(() => (props.item ? 'Edit' : 'Create'));
+
 const ruleFormRef = ref<FormInstance>();
 const form = reactive<IWalletAddItemForm>({
-    title: '',
-    categoryId: '',
-    date: new Date(),
-    price: '',
+    id: props.item?.id,
+    title: props.item?.title ?? '',
+    categoryId: props.item?.categoryId,
+    date: props.item?.date ?? new Date(),
+    price: props.item?.price,
 });
 
 const rules = reactive<FormRules>({
@@ -75,7 +80,7 @@ const submitForm = () => {
             </el-col>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm">Create</el-button>
+            <el-button type="primary" @click="submitForm">{{ submitText }}</el-button>
         </el-form-item>
     </el-form>
 </template>

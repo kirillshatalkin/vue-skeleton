@@ -13,9 +13,10 @@ export interface IWalletItemWithCategory extends IWalletItem {
 }
 
 export interface IWalletAddItemForm {
-    categoryId: string;
+    id?: number;
+    categoryId?: number;
     title: string;
-    price: string;
+    price?: number;
     date: Date;
 }
 
@@ -27,6 +28,6 @@ export const mapWalletItemDtoToWalletItem = (dto: IWalletItemDto): IWalletItem =
 export const mapWalletFormToWalletItemDto = (item: IWalletAddItemForm): IAddWalletItemDto => ({
     ...item,
     date: item.date.toISOString(),
-    price: +item.price,
-    categoryId: +item.categoryId,
+    price: item.price ?? 0,
+    categoryId: item.categoryId ?? 0,
 });
