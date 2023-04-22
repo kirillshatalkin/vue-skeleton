@@ -1,3 +1,5 @@
+import { isAfter, isBefore } from 'date-fns';
+
 const APP_WALLET_LIST_KEY = 'APP_WALLET_LIST_KEY';
 const APP_WALLET_CATEGORIES_KEY = 'APP_WALLET_CATEGORIES_KEY';
 
@@ -7,11 +9,11 @@ window.localStorage.setItem(
     JSON.stringify([
         {
             id: 1,
-            title: 'Category 1',
+            title: 'Food',
         },
         {
             id: 2,
-            title: 'Category 2',
+            title: 'Shopping',
         },
     ]),
 );
@@ -33,6 +35,8 @@ export interface IAddWalletItemDto {
 
 export type TGetListParams = {
     search?: string;
+    dates?: [Date, Date];
+    categoryIds?: number[];
 };
 
 export interface ICategoryDto {
@@ -59,7 +63,12 @@ const getWalletList = async (params?: TGetListParams): Promise<IWalletItemDto[]>
     const defaultValue: IWalletItemDto[] = [];
     const list = parseJSON(data, defaultValue);
     const result = list.filter(item => {
-        return !params?.search || item.title.toLowerCase().includes(params.search.toLowerCase());
+        const date = new Date(item.date);
+        return (
+            (!params?.search || item.title.toLowerCase().includes(params.search.toLowerCase())) &&
+            (!params?.dates?.length || (isAfter(date, params?.dates[0]) && isBefore(date, params?.dates[1]))) &&
+            (!params?.categoryIds?.length || params?.categoryIds.includes(item.categoryId))
+        );
     });
     return new Promise(resolve => setTimeout(() => resolve(result), 500));
 };
@@ -83,8 +92,7 @@ const removeWalletItem = async (id: number) => {
 const getCategories = async (): Promise<ICategoryDto[]> => {
     const data = window.localStorage.getItem(APP_WALLET_CATEGORIES_KEY);
     const defaultValue: IWalletItemDto[] = [];
-    const list = parseJSON(data, defaultValue);
-    return list;
+    return parseJSON(data, defaultValue);
 };
 
 const addCategory = async (item: IAddCategoryDto): Promise<void> => {

@@ -8,6 +8,10 @@ export interface IWalletItem {
     date: Date;
 }
 
+export interface IWalletItemWithCategory extends IWalletItem {
+    category: string;
+}
+
 export interface IWalletAddItemForm {
     categoryId: string;
     title: string;

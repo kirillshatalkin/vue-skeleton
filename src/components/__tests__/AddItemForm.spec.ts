@@ -7,6 +7,14 @@ import AddItemForm from '../AddItemForm.vue';
 describe('AddItemForm', () => {
     it('renders properly', () => {
         const wrapper = mount(AddItemForm, {
+            props: {
+                categories: [
+                    {
+                        id: 1,
+                        title: 'test category',
+                    },
+                ],
+            },
             global: {
                 plugins: [ElementPlus],
             },

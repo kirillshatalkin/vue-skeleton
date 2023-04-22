@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { addCategory, getCategories, removeCategory } from '@/services/wallet';
 import type { IAddCategoryForm, ICategory } from '@/models/wallet-category';
@@ -6,6 +6,8 @@ import type { IAddCategoryForm, ICategory } from '@/models/wallet-category';
 export const useCategoriesStore = defineStore('categories', () => {
     const items = ref<ICategory[]>([]);
     const isLoading = ref(false);
+
+    const itemsMap = computed<Map<number, ICategory>>(() => new Map(items.value.map(item => [item.id, item])));
 
     const fetchList = async (): Promise<void> => {
         isLoading.value = true;
@@ -40,5 +42,6 @@ export const useCategoriesStore = defineStore('categories', () => {
         removeItem,
         isLoading,
         items,
+        itemsMap,
     };
 });

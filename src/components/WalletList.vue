@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import WalletItem from '@/components/WalletItem.vue';
-import type { IWalletItem } from '@/models/wallet-item';
+import type { IWalletItemWithCategory } from '@/models/wallet-item';
 
 defineProps<{
-    items: IWalletItem[];
+    items: IWalletItemWithCategory[];
 }>();
 
 defineEmits<{
@@ -14,7 +14,9 @@ defineEmits<{
 <template>
     <WalletItem
         v-for="item in items"
+        :category="item.category"
         :title="item.title"
+        :price="item.price"
         :date="item.date"
         :key="item.id"
         @remove="$emit('remove', item.id)"

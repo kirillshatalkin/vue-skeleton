@@ -14,6 +14,7 @@ describe('WalletList', () => {
                         title: 'test title',
                         date: new Date(),
                         categoryId: 1,
+                        category: 'category',
                         price: 100,
                     },
                 ],
@@ -23,5 +24,7 @@ describe('WalletList', () => {
             },
         });
         expect(wrapper.text()).toContain('test title');
+        expect(wrapper.text()).toContain('category');
+        expect(wrapper.text()).toContain('100');
     });
 });

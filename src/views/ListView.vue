@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import WalletList from '@/components/WalletList.vue';
 import AddItemForm from '@/components/AddItemForm.vue';
+import TotalItem from '@/components/TotalItem.vue';
 import { useWalletStore } from '@/stores/wallet';
 import { useCategoriesStore } from '@/stores/categories';
 import { computed, ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
-import type { IWalletAddItemForm } from '@/models/wallet-item';
+import type { IWalletAddItemForm, IWalletItemWithCategory } from '@/models/wallet-item';
+import { shortcuts } from '@/utils/date';
 
 const categoriesStore = useCategoriesStore();
 
@@ -17,8 +19,19 @@ const addItemFormVisible = ref(false);
 
 walletStore.fetchList();
 
-const showSkeleton = computed(() => (categoriesStore.isLoading || walletStore.isLoading) && !walletStore.items.length);
-const showLoader = computed(() => (categoriesStore.isLoading || walletStore.isLoading) && walletStore.items.length > 0);
+const items = computed<IWalletItemWithCategory[]>(() =>
+    walletStore.items.map(item => ({
+        ...item,
+        category: categoriesStore.itemsMap.get(item.categoryId)?.title ?? '',
+    })),
+);
+
+const showSkeleton = computed<boolean>(
+    () => (categoriesStore.isLoading || walletStore.isLoading) && !walletStore.items.length,
+);
+const showLoader = computed<boolean>(
+    () => (categoriesStore.isLoading || walletStore.isLoading) && walletStore.items.length > 0,
+);
 
 const submitAddItemForm = async (item: IWalletAddItemForm) => {
     const result = await walletStore.addItem(item);
@@ -47,9 +60,33 @@ const handleAddItemFormClose = (done: () => void) => {
         </el-col>
     </el-row>
 
-    <el-row class="el-row">
-        <el-col>
-            <el-input v-model="walletStore.search" placeholder="Search" />
+    <el-row class="el-row" :gutter="20">
+        <el-col :span="7">
+            <el-input v-model="walletStore.filter.search" placeholder="Search" clearable />
+        </el-col>
+
+        <el-col :span="7">
+            <el-select
+                v-model="walletStore.filter.categoryIds"
+                multiple
+                placeholder="Select categories"
+                class="filter-select"
+                clearable
+            >
+                <el-option v-for="item in categoriesStore.items" :key="item.id" :label="item.title" :value="item.id" />
+            </el-select>
+        </el-col>
+
+        <el-col :span="10">
+            <el-date-picker
+                v-model="walletStore.filter.dates"
+                type="daterange"
+                unlink-panels
+                range-separator="To"
+                start-placeholder="Start date"
+                end-placeholder="End date"
+                :shortcuts="shortcuts"
+            />
         </el-col>
     </el-row>
 
@@ -58,11 +95,10 @@ const handleAddItemFormClose = (done: () => void) => {
             <el-skeleton v-if="showSkeleton" :rows="3" animated />
 
             <template v-else>
-                <WalletList
-                    v-if="walletStore.items.length > 0"
-                    :items="walletStore.items"
-                    @remove="walletStore.removeItem"
-                />
+                <template v-if="walletStore.items.length > 0">
+                    <TotalItem :price="walletStore.totalPrice" />
+                    <WalletList v-if="walletStore.items.length > 0" :items="items" @remove="walletStore.removeItem" />
+                </template>
 
                 <el-empty v-else description="No items" />
             </template>
@@ -83,5 +119,8 @@ const handleAddItemFormClose = (done: () => void) => {
 <style scoped>
 .el-row {
     margin-bottom: 20px;
+}
+.filter-select {
+    width: 100%;
 }
 </style>
