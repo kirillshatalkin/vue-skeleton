@@ -57,7 +57,7 @@ const submitForm = () => {
 </script>
 
 <template>
-    <el-form :model="form" label-width="120px" :rules="rules" ref="ruleFormRef" v-loading="showLoader">
+    <el-form :model="form" label-width="120px" :rules="rules" ref="ruleFormRef">
         <el-form-item label="Title" prop="title">
             <el-input v-model="form.title" />
         </el-form-item>

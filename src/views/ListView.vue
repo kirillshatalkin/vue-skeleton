@@ -18,7 +18,7 @@ const addItemFormVisible = ref(false);
 walletStore.fetchList();
 
 const showSkeleton = computed(() => (categoriesStore.isLoading || walletStore.isLoading) && !walletStore.items.length);
-const showLoader = computed(() => (categoriesStore.isLoading || walletStore.isLoading) && walletStore.items.length);
+const showLoader = computed(() => (categoriesStore.isLoading || walletStore.isLoading) && walletStore.items.length > 0);
 
 const submitAddItemForm = async (item: IWalletAddItemForm) => {
     const result = await walletStore.addItem(item);
