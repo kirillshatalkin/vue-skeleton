@@ -5,12 +5,12 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            redirect: '/list',
+            redirect: '/wallet',
         },
         {
-            path: '/list',
-            name: 'List',
-            component: () => import('@/views/ListView.vue'),
+            path: '/wallet',
+            name: 'Expenses',
+            component: () => import('@/views/WalletView.vue'),
         },
         {
             path: '/:pathMatch(.*)',

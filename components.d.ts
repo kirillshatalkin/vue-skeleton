@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AddItemForm: typeof import('./src/components/AddItemForm.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
@@ -30,6 +31,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TotalItem: typeof import('./src/components/TotalItem.vue')['default']
+    WalletCharts: typeof import('./src/components/WalletCharts.vue')['default']
     WalletItem: typeof import('./src/components/WalletItem.vue')['default']
     WalletList: typeof import('./src/components/WalletList.vue')['default']
   }

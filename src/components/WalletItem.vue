@@ -49,5 +49,6 @@ const price = computed<string>(() => formatPrice(props.price));
     grid-template-columns: 200px 100px 100px 200px 30px;
     justify-content: space-between;
     align-items: center;
+    word-break: break-word;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import WalletList from '@/components/WalletList.vue';
+import WalletChart from '@/components/WalletCharts.vue';
 import AddItemForm from '@/components/AddItemForm.vue';
 import TotalItem from '@/components/TotalItem.vue';
 import { useWalletStore } from '@/stores/wallet';
@@ -9,6 +10,8 @@ import { Plus } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
 import type { IWalletAddItemForm, IWalletItemWithCategory } from '@/models/wallet-item';
 import { shortcuts } from '@/utils/date';
+
+const showCharts = ref(false);
 
 const categoriesStore = useCategoriesStore();
 
@@ -55,8 +58,12 @@ const handleAddItemFormClose = (done: () => void) => {
 
 <template>
     <el-row class="el-row" justify="space-between">
-        <el-col>
+        <el-col :span="4">
             <el-button type="primary" :icon="Plus" @click="openAddItemForm">Add item</el-button>
+        </el-col>
+
+        <el-col :span="3">
+            <el-checkbox v-model="showCharts" label="Show charts" />
         </el-col>
     </el-row>
 
@@ -97,7 +104,9 @@ const handleAddItemFormClose = (done: () => void) => {
             <template v-else>
                 <template v-if="walletStore.items.length > 0">
                     <TotalItem :price="walletStore.totalPrice" />
-                    <WalletList v-if="walletStore.items.length > 0" :items="items" @remove="walletStore.removeItem" />
+
+                    <WalletChart v-if="showCharts" :items="items" :categories="categoriesStore.itemsMap" />
+                    <WalletList :items="items" @remove="walletStore.removeItem" v-else />
                 </template>
 
                 <el-empty v-else description="No items" />

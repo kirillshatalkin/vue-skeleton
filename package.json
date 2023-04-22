@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
+    "start": "vite --force",
+    "dev": "vite --force",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
@@ -16,10 +16,12 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@vueuse/core": "^10.1.0",
+    "chart.js": "^4.2.1",
     "date-fns": "^2.29.3",
     "element-plus": "^2.3.3",
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
