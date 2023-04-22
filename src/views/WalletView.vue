@@ -7,11 +7,13 @@ import TotalItem from '@/components/TotalItem.vue';
 import { useWalletStore } from '@/stores/wallet';
 import { useCategoriesStore } from '@/stores/categories';
 import { computed, ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, Files } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
 import type { IWalletAddItemForm, IWalletItemWithCategory } from '@/models/wallet-item';
 import { shortcuts } from '@/utils/date';
 import type { IAddCategoryForm } from '@/models/wallet-category';
+import { itemsHeaders, tableToCSV } from '@/utils/csv';
+import { saveToFile } from '@/utils/file';
 
 const showCharts = ref(false);
 const itemToEdit = ref<IWalletItemWithCategory | undefined>();
@@ -80,15 +82,21 @@ const openEditItemForm = (item: IWalletItemWithCategory) => {
 const handleAddItemFormClose = (done: () => void) => {
     ElMessageBox.confirm('Are you sure to close form?').then(() => done());
 };
+
+const exportToCsv = () => {
+    const csv = tableToCSV(itemsHeaders, items.value);
+    saveToFile(csv, 'wallet-expenses.csv', 'text/csv');
+};
 </script>
 
 <template>
     <el-row class="el-row" justify="space-between">
-        <el-col :span="8">
+        <el-col :span="12">
             <el-button type="primary" :icon="Plus" @click="openAddItemForm" :disabled="!categoriesStore.items.length"
                 >Add item</el-button
             >
             <el-button type="primary" :icon="Plus" @click="openAddCategoryForm">Add category</el-button>
+            <el-button type="info" :icon="Files" @click="exportToCsv">Export to CSV</el-button>
         </el-col>
 
         <el-col :span="3">
