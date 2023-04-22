@@ -2,16 +2,19 @@ import { describe, it, expect } from 'vitest';
 import ElementPlus from 'element-plus';
 
 import { mount } from '@vue/test-utils';
-import SmthList from '../SmthList.vue';
+import WalletList from '../WalletList.vue';
 
-describe('SmthList', () => {
+describe('WalletList', () => {
     it('renders properly', () => {
-        const wrapper = mount(SmthList, {
+        const wrapper = mount(WalletList, {
             props: {
                 items: [
                     {
                         id: 1,
-                        prop: 'test prop',
+                        title: 'test title',
+                        date: new Date(),
+                        categoryId: 1,
+                        price: 100,
                     },
                 ],
             },
@@ -19,6 +22,6 @@ describe('SmthList', () => {
                 plugins: [ElementPlus],
             },
         });
-        expect(wrapper.text()).toContain('test prop');
+        expect(wrapper.text()).toContain('test title');
     });
 });

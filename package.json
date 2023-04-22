@@ -11,11 +11,11 @@
     "test:e2e": "playwright test",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.ts --fix --ignore-path .gitignore",
-    "api": "node ./generate-api.js"
+    "lint": "eslint . --ext .vue,.ts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "date-fns": "^2.29.3",
     "element-plus": "^2.3.3",
     "pinia": "^2.0.28",
     "vue": "^3.2.45",

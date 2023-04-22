@@ -5,6 +5,5 @@ import { test, expect } from '@playwright/test';
 test('visits the app root url', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.getByRole('heading')).toHaveText('Skeleton. Smth');
-    await expect(page.locator('.el-card__header')).toHaveText('Prop');
+    await expect(page.getByRole('heading')).toHaveText('Wallet. List');
 });

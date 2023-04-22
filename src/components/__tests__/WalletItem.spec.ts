@@ -2,18 +2,19 @@ import { describe, it, expect } from 'vitest';
 import ElementPlus from 'element-plus';
 
 import { mount } from '@vue/test-utils';
-import SmthItem from '../SmthItem.vue';
+import WalletItem from '../WalletItem.vue';
 
-describe('SmthItem', () => {
+describe('WalletItem', () => {
     it('renders properly', () => {
-        const wrapper = mount(SmthItem, {
+        const wrapper = mount(WalletItem, {
             props: {
-                prop: 'test prop',
+                title: 'test title',
+                date: new Date(),
             },
             global: {
                 plugins: [ElementPlus],
             },
         });
-        expect(wrapper.text()).toContain('test prop');
+        expect(wrapper.text()).toContain('test title');
     });
 });

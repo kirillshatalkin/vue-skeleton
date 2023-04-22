@@ -12,7 +12,7 @@ const route = useRoute();
                     <img alt="Logo" class="logo" src="@/assets/logo.svg" />
                 </el-col>
                 <el-col :span="22">
-                    <h1>Skeleton. {{ route.name }}</h1>
+                    <h1>Wallet. {{ route.name }}</h1>
                 </el-col>
             </el-row>
         </el-header>

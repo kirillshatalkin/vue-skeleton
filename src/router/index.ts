@@ -5,12 +5,12 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            redirect: '/smth',
+            redirect: '/list',
         },
         {
-            path: '/smth',
-            name: 'Smth',
-            component: () => import('@/views/SmthView.vue'),
+            path: '/list',
+            name: 'List',
+            component: () => import('@/views/ListView.vue'),
         },
         {
             path: '/:pathMatch(.*)',
