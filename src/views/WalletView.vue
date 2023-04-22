@@ -2,6 +2,7 @@
 import WalletList from '@/components/WalletList.vue';
 import WalletChart from '@/components/WalletCharts.vue';
 import AddItemForm from '@/components/AddItemForm.vue';
+import AddCategoryForm from '@/components/AddCategoryForm.vue';
 import TotalItem from '@/components/TotalItem.vue';
 import { useWalletStore } from '@/stores/wallet';
 import { useCategoriesStore } from '@/stores/categories';
@@ -10,6 +11,7 @@ import { Plus } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
 import type { IWalletAddItemForm, IWalletItemWithCategory } from '@/models/wallet-item';
 import { shortcuts } from '@/utils/date';
+import type { IAddCategoryForm } from '@/models/wallet-category';
 
 const showCharts = ref(false);
 const itemToEdit = ref<IWalletItemWithCategory | undefined>();
@@ -20,6 +22,7 @@ categoriesStore.fetchList();
 
 const walletStore = useWalletStore();
 const addItemFormVisible = ref(false);
+const addCategoryFormVisible = ref(false);
 
 walletStore.fetchList();
 
@@ -44,6 +47,13 @@ const submitAddItemForm = async (item: IWalletAddItemForm) => {
     }
 };
 
+const submitAddCategoryForm = async (item: IAddCategoryForm) => {
+    const result = await categoriesStore.addItem(item);
+    if (result) {
+        closeAddCategoryForm();
+    }
+};
+
 const closeAddItemForm = () => {
     addItemFormVisible.value = false;
 };
@@ -51,6 +61,15 @@ const closeAddItemForm = () => {
 const openAddItemForm = () => {
     itemToEdit.value = undefined;
     addItemFormVisible.value = true;
+};
+
+const closeAddCategoryForm = () => {
+    addCategoryFormVisible.value = false;
+};
+
+const openAddCategoryForm = () => {
+    itemToEdit.value = undefined;
+    addCategoryFormVisible.value = true;
 };
 
 const openEditItemForm = (item: IWalletItemWithCategory) => {
@@ -65,8 +84,11 @@ const handleAddItemFormClose = (done: () => void) => {
 
 <template>
     <el-row class="el-row" justify="space-between">
-        <el-col :span="4">
-            <el-button type="primary" :icon="Plus" @click="openAddItemForm">Add item</el-button>
+        <el-col :span="8">
+            <el-button type="primary" :icon="Plus" @click="openAddItemForm" :disabled="!categoriesStore.items.length"
+                >Add item</el-button
+            >
+            <el-button type="primary" :icon="Plus" @click="openAddCategoryForm">Add category</el-button>
         </el-col>
 
         <el-col :span="3">
@@ -134,6 +156,10 @@ const handleAddItemFormClose = (done: () => void) => {
             :categories="categoriesStore.items"
             :item="itemToEdit"
         />
+    </el-dialog>
+
+    <el-dialog destroy-on-close v-model="addCategoryFormVisible" title="Add category" width="30%">
+        <AddCategoryForm @submit="submitAddCategoryForm" v-loading="showLoader" />
     </el-dialog>
 </template>
 

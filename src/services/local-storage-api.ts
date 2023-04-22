@@ -3,21 +3,6 @@ import { isAfter, isBefore } from 'date-fns';
 const APP_WALLET_LIST_KEY = 'APP_WALLET_LIST_KEY';
 const APP_WALLET_CATEGORIES_KEY = 'APP_WALLET_CATEGORIES_KEY';
 
-// tmp default categories
-window.localStorage.setItem(
-    APP_WALLET_CATEGORIES_KEY,
-    JSON.stringify([
-        {
-            id: 1,
-            title: 'Food',
-        },
-        {
-            id: 2,
-            title: 'Shopping',
-        },
-    ]),
-);
-
 export interface IWalletItemDto {
     id: number;
     categoryId: number;
