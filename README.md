@@ -1,5 +1,7 @@
 # vue-skeleton
 
+https://kirillshatalkin.github.io/
+
 ## Project Setup
 
 ```sh
